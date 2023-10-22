@@ -8,12 +8,12 @@ const circuit = require ("../circuits/target/stealthdrop.json");
 const { expect } = require("chai")
 
 describe('Setup', () => {
+  const messageToHash = '0xabfd76608112cc843dca3a31931f3974da5f9f5d32833e7817bc7e5c50c7821e';
   let hashedMessage;
   let verifier;
   let noir;
 
   before(async () => {
-    const messageToHash = '0xabfd76608112cc843dca3a31931f3974da5f9f5d32833e7817bc7e5c50c7821e';
     publicClient = await hre.viem.getPublicClient();
     verifier = await hre.viem.deployContract('UltraVerifier');
     hashedMessage = hashMessage(messageToHash, "hex");
@@ -31,8 +31,11 @@ describe('Setup', () => {
       const [user1] = await hre.viem.getWalletClients();
       const signature = await user1.signMessage({ account: user1.account.address, message: messageToHash })
       const pubKey = await recoverPublicKey({hash: hashedMessage, signature});
+      console.log([...fromHex(pubKey, "bytes").slice(1).slice(0, 32)])
+      console.log([...fromHex(pubKey, "bytes").slice(33)])
       const inputs = {
-          pub_key: [...fromHex(pubKey, "bytes").slice(1)],
+          pub_key_x: [...fromHex(pubKey, "bytes").slice(1).slice(0, 32)],
+          pub_key_y: [...fromHex(pubKey, "bytes").slice(33)],
           signature: [...fromHex(signature, "bytes").slice(0, 64)],
           hashed_message: [...fromHex(hashedMessage, "bytes")],
       };
