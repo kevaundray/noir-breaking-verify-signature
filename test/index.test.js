@@ -1,29 +1,31 @@
 const hre = require('hardhat');
-const { fromHex, hashMessage, recoverPublicKey, toHex } = require("viem")
+const { fromHex, hashMessage, recoverPublicKey, toHex, compactSignatureToSignature } = require("viem")
 
 const { BarretenbergBackend } = require ('@noir-lang/backend_barretenberg');
 const { Noir }  = require ('@noir-lang/noir_js');
 
-const circuit = require ("../circuits/target/stealthdrop.json");
+const c_secp256k1 = require ("../circuits/secp256k1/target/secp256k1.json");
+const c_secp256r1 = require ("../circuits/secp256r1/target/secp256r1.json");
 const { expect } = require("chai")
+
+const { randomBytes } = require('crypto')
+const secp256r1 = require('secp256r1')
 
 describe('Setup', () => {
   const messageToHash = '0xabfd76608112cc843dca3a31931f3974da5f9f5d32833e7817bc7e5c50c7821e';
   let hashedMessage;
   let verifier;
+
+
+  describe('secp256k1 tests', () => {
   let noir;
-
-  before(async () => {
-    publicClient = await hre.viem.getPublicClient();
-    verifier = await hre.viem.deployContract('UltraVerifier');
-    hashedMessage = hashMessage(messageToHash, "hex");
-  });
-
-  describe('Airdrop tests', () => {
-
     before(async () => {
-      const backend = new BarretenbergBackend(circuit, { threads: 8 });
-      noir = new Noir(circuit, backend);
+      publicClient = await hre.viem.getPublicClient();
+      verifier = await hre.viem.deployContract('../artifacts/circuits/secp256k1/contract/secp256k1/plonk_vk.sol:UltraVerifier');
+      hashedMessage = hashMessage(messageToHash, "hex");
+
+      const backend = new BarretenbergBackend(c_secp256k1, { threads: 8 });
+      noir = new Noir(c_secp256k1, backend);
     });
 
     let proof;
@@ -41,6 +43,50 @@ describe('Setup', () => {
       console.log(inputs)
 
       proof = await noir.generateFinalProof(inputs)
+    })
+
+    it('Verifies correct proof off-chain', async () => {
+      const verification = await noir.verifyFinalProof(proof);
+      expect(verification).to.be.true;
+    });
+
+    it('Verifies correct proof on-chain', async () => {
+      await verifier.read.verify([toHex(proof.proof), proof.publicInputs.map(e => toHex(e))]);
+    });
+  });
+
+  describe.only('secp256r1 tests', () => {
+  let noir;
+
+    before(async () => {
+      publicClient = await hre.viem.getPublicClient();
+      verifier = await hre.viem.deployContract('../artifacts/circuits/secp256r1/contract/secp256r1/plonk_vk.sol:UltraVerifier');
+      hashedMessage = hashMessage(messageToHash, "hex");
+
+      const backend = new BarretenbergBackend(c_secp256r1, { threads: 8 });
+      noir = new Noir(c_secp256r1, backend);
+    });
+
+    let proof;
+    it("Generates a correct proof for an eligible user", async () => {
+      const privKey = Buffer.from("ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80", "hex")
+      const pubKey = secp256r1.publicKeyCreate(privKey)
+      const uncompressedPubKey = secp256r1.publicKeyConvert(pubKey, false)
+      const msg = Buffer.from(fromHex(messageToHash, "bytes"))
+      const signature = secp256r1.sign(msg, privKey)
+      console.log("local secp256r1 verification", secp256r1.verify(msg, signature.signature, pubKey))
+
+      const inputs = {
+          pub_key_x: [...uncompressedPubKey.slice(1).slice(0, 32)],
+          pub_key_y: [...uncompressedPubKey.slice(33)],
+          signature: [...signature.signature],
+          hashed_message: [...msg],
+      };
+
+      console.log(inputs)
+
+      proof = await noir.generateFinalProof(inputs)
+      console.log(proof)
     })
 
     it('Verifies correct proof off-chain', async () => {

@@ -15,7 +15,7 @@ const config = {
     },
   },
   paths: {
-    sources: './circuits/contract',
+    sources: './circuits',
   },
   mocha: {
     timeout: 4000000
