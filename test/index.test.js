@@ -31,14 +31,14 @@ describe('Setup', () => {
       const [user1] = await hre.viem.getWalletClients();
       const signature = await user1.signMessage({ account: user1.account.address, message: messageToHash })
       const pubKey = await recoverPublicKey({hash: hashedMessage, signature});
-      console.log([...fromHex(pubKey, "bytes").slice(1).slice(0, 32)])
-      console.log([...fromHex(pubKey, "bytes").slice(33)])
       const inputs = {
           pub_key_x: [...fromHex(pubKey, "bytes").slice(1).slice(0, 32)],
           pub_key_y: [...fromHex(pubKey, "bytes").slice(33)],
           signature: [...fromHex(signature, "bytes").slice(0, 64)],
           hashed_message: [...fromHex(hashedMessage, "bytes")],
       };
+
+      console.log(inputs)
 
       proof = await noir.generateFinalProof(inputs)
     })
