@@ -13,7 +13,6 @@ const { expect } = require("chai")
 describe('Setup', () => {
   const messageToHash = '0xabfd76608112cc843dca3a31931f3974da5f9f5d32833e7817bc7e5c50c7821e';
   let hashedMessage;
-  let verifier;
 
   describe('secp256k1 tests', () => {
   let noir;
@@ -47,8 +46,11 @@ describe('Setup', () => {
     });
 
     it('Verifies correct proof on-chain', async () => {
+      // Print proof to ease debugging
+      console.log(proof);
+      
       // viem
-      // verifier = await hre.viem.deployContract('../artifacts/circuits/secp256k1/contract/secp256k1/plonk_vk.sol:UltraVerifier');
+      // const verifier = await hre.viem.deployContract('../artifacts/circuits/secp256k1/contract/secp256k1/plonk_vk.sol:UltraVerifier');
       // const result = await verifier.read.verify([toHex(proof.proof), proof.publicInputs.map(e => toHex(e))]);
       
       // ethers
@@ -66,7 +68,7 @@ describe('Setup', () => {
 
     before(async () => {
       publicClient = await hre.viem.getPublicClient();
-      verifier = await hre.viem.deployContract('../artifacts/circuits/secp256r1/contract/secp256r1/plonk_vk.sol:UltraVerifier');
+      const verifier = await hre.viem.deployContract('../artifacts/circuits/secp256r1/contract/secp256r1/plonk_vk.sol:UltraVerifier');
       hashedMessage = hashMessage(messageToHash, "hex");
 
       const backend = new BarretenbergBackend(c_secp256r1, { threads: 8 });
