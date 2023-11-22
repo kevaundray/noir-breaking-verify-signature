@@ -4,16 +4,20 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "compile": "cd circuits && nargo codegen-verifier && nargo compile",
+    "compile": "yarn compile:k1 && yarn compile:r1",
+    "compile:k1": "cd circuits/secp256k1 && nargo codegen-verifier && nargo compile",
+    "compile:r1": "cd circuits/secp256r1 && nargo codegen-verifier && nargo compile",
     "test": "hardhat compile && hardhat test"
   },
   "dependencies": {
-    "@noir-lang/backend_barretenberg": "0.17.0",
-    "@noir-lang/noir_js": "0.17.0",
+    "@noir-lang/backend_barretenberg": "0.19.2",
+    "@noir-lang/noir_js": "0.19.2",
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.2",
+    "@nomicfoundation/hardhat-ethers": "^3.0.0",
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
     "@nomicfoundation/hardhat-toolbox-viem": "1.0.0",
     "@nomicfoundation/hardhat-viem": "1.0.0",
+    "ethers": "^6.8.1",
     "hardhat": "^2.18.1",
     "react": "^18.2.0",
     "secp256r1": "^0.0.3",

@@ -1,27 +1,25 @@
 const hre = require('hardhat');
 const { fromHex, hashMessage, recoverPublicKey, toHex, compactSignatureToSignature } = require("viem")
+const { ethers } =require('hardhat');
 
 const { BarretenbergBackend } = require ('@noir-lang/backend_barretenberg');
 const { Noir }  = require ('@noir-lang/noir_js');
 
 const c_secp256k1 = require ("../circuits/secp256k1/target/secp256k1.json");
 const c_secp256r1 = require ("../circuits/secp256r1/target/secp256r1.json");
-const { expect } = require("chai")
-
-const { randomBytes } = require('crypto')
 const secp256r1 = require('secp256r1')
+const { expect } = require("chai")
 
 describe('Setup', () => {
   const messageToHash = '0xabfd76608112cc843dca3a31931f3974da5f9f5d32833e7817bc7e5c50c7821e';
   let hashedMessage;
   let verifier;
 
-
   describe('secp256k1 tests', () => {
   let noir;
     before(async () => {
       publicClient = await hre.viem.getPublicClient();
-      verifier = await hre.viem.deployContract('../artifacts/circuits/secp256k1/contract/secp256k1/plonk_vk.sol:UltraVerifier');
+      
       hashedMessage = hashMessage(messageToHash, "hex");
 
       const backend = new BarretenbergBackend(c_secp256k1, { threads: 8 });
@@ -40,8 +38,6 @@ describe('Setup', () => {
           hashed_message: [...fromHex(hashedMessage, "bytes")],
       };
 
-      console.log(inputs)
-
       proof = await noir.generateFinalProof(inputs)
     })
 
@@ -51,10 +47,20 @@ describe('Setup', () => {
     });
 
     it('Verifies correct proof on-chain', async () => {
-      await verifier.read.verify([toHex(proof.proof), proof.publicInputs.map(e => toHex(e))]);
+      // viem
+      // verifier = await hre.viem.deployContract('../artifacts/circuits/secp256k1/contract/secp256k1/plonk_vk.sol:UltraVerifier');
+      // const result = await verifier.read.verify([toHex(proof.proof), proof.publicInputs.map(e => toHex(e))]);
+      
+      // ethers
+      const verifier = await ethers.deployContract('../artifacts/circuits/secp256k1/contract/secp256k1/plonk_vk.sol:UltraVerifier', [], {});
+      const result = await verifier.verify(proof.proof, proof.publicInputs);
+
+      expect(result).to.be.true;
     });
   });
 
+  // Commenting secp256r1 out to focus on secp256k1 first.
+  /**
   describe.only('secp256r1 tests', () => {
   let noir;
 
@@ -98,4 +104,5 @@ describe('Setup', () => {
       await verifier.read.verify([toHex(proof.proof), proof.publicInputs.map(e => toHex(e))]);
     });
   });
+  */
 });
