@@ -19,9 +19,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aztec/bb.js@npm:0.15.1":
-  version: 0.15.1
-  resolution: "@aztec/bb.js@npm:0.15.1"
+"@aztec/bb.js@npm:0.16.0":
+  version: 0.16.0
+  resolution: "@aztec/bb.js@npm:0.16.0"
   dependencies:
     comlink: ^4.4.1
     commander: ^10.0.1
@@ -29,7 +29,7 @@ __metadata:
     tslib: ^2.4.0
   bin:
     bb.js: dest/node/main.js
-  checksum: b3d94eb6db1d1579fa7266486d4b1c6ddc408f1d36bd2585b50e623aa90222d273e56464284b94677979840c1119c5385aa961462d3a1af6cb9a2ba1cf9655f9
+  checksum: 5f68b4ad16284a3a871e0ad21fea05aed670383bc639c9d07ab3bf9b7a9d15cc8a4e5cda404a9290775ad5023924739543a8aac37d602892dd1fb5087521970b
   languageName: node
   linkType: hard
 
@@ -641,48 +641,48 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noir-lang/acvm_js@npm:0.34.0":
-  version: 0.34.0
-  resolution: "@noir-lang/acvm_js@npm:0.34.0"
-  checksum: e9378e18f256367513b03828b02c3207c1d7c929f27bc1ad974c753a953be9f9c51c8f40d54c955242264d6b6bd01868eaa4035654788bcdee20d358fb40acd6
+"@noir-lang/acvm_js@npm:0.35.0":
+  version: 0.35.0
+  resolution: "@noir-lang/acvm_js@npm:0.35.0"
+  checksum: 0a2209f60242d9dbef31e72b738d70ff802da71f12d4b4f278144d373941f30844c8d041518970e71ba82eb9337cf4cc3a40fbd4b2c50acff45d84d2ee7dd435
   languageName: node
   linkType: hard
 
-"@noir-lang/backend_barretenberg@npm:0.19.3":
-  version: 0.19.3
-  resolution: "@noir-lang/backend_barretenberg@npm:0.19.3"
+"@noir-lang/backend_barretenberg@npm:^0.19.4":
+  version: 0.19.4
+  resolution: "@noir-lang/backend_barretenberg@npm:0.19.4"
   dependencies:
-    "@aztec/bb.js": 0.15.1
-    "@noir-lang/types": 0.19.3
+    "@aztec/bb.js": 0.16.0
+    "@noir-lang/types": 0.19.4
     fflate: ^0.8.0
-  checksum: 9cbc9e482721e86e21b0b7c55fdd3f53e5fad5bf773d87b9521fe9c49ce67846d695d779be387612f3ebf708f2fcf006e673e5060ac5311fc21e3391d315730f
+  checksum: b84382e71f29f0e10415f8c3a68eb7bb0653f56df1b3e8afd66c22df7adc950fb9016124f32253abad3d05583bccf26b1d0c0cabc601218083fd27d0601a3c02
   languageName: node
   linkType: hard
 
-"@noir-lang/noir_js@npm:^0.19.3":
-  version: 0.19.3
-  resolution: "@noir-lang/noir_js@npm:0.19.3"
+"@noir-lang/noir_js@npm:^0.19.4":
+  version: 0.19.4
+  resolution: "@noir-lang/noir_js@npm:0.19.4"
   dependencies:
-    "@noir-lang/acvm_js": 0.34.0
-    "@noir-lang/noirc_abi": 0.19.3
-    "@noir-lang/types": 0.19.3
-  checksum: 6f08a1ab8988e991d7e68075e3936e56e9e66f876933abacff3b846139a09c5b927c1ca7133b54fc88cab891338bb76a85bcdb31f284738b27dc358b4cca4d14
+    "@noir-lang/acvm_js": 0.35.0
+    "@noir-lang/noirc_abi": 0.19.4
+    "@noir-lang/types": 0.19.4
+  checksum: 1ee6140019861cee3a27d511951e6b3ed629925a83328b0fbe18791a534c36d26d33ae3ca3aa25252fac8932dfeefedc0d5f07169d5d08f1485d6290965d2491
   languageName: node
   linkType: hard
 
-"@noir-lang/noirc_abi@npm:0.19.3":
-  version: 0.19.3
-  resolution: "@noir-lang/noirc_abi@npm:0.19.3"
-  checksum: 12f2460198a27b7ad5ea0c7d5a412f69c76571391581702c2f337b45a8958fa90871fa7671716b96e29f0067f74520df8dc8c9519f37a64a52c3c473ed154612
+"@noir-lang/noirc_abi@npm:0.19.4":
+  version: 0.19.4
+  resolution: "@noir-lang/noirc_abi@npm:0.19.4"
+  checksum: 7446127935c954ae1b2bfdfa6cf111a9c14a2024f13a2d7e7e0a612319b0b4cc199acdbceaa94168e3bd5d82760b9d2fd2c9eec6677d57ed76e7b666e2b28c7d
   languageName: node
   linkType: hard
 
-"@noir-lang/types@npm:0.19.3":
-  version: 0.19.3
-  resolution: "@noir-lang/types@npm:0.19.3"
+"@noir-lang/types@npm:0.19.4, @noir-lang/types@npm:^0.19.4":
+  version: 0.19.4
+  resolution: "@noir-lang/types@npm:0.19.4"
   dependencies:
-    "@noir-lang/noirc_abi": 0.19.3
-  checksum: 91483abde2e38053cfc41c96903d63869955487ab9214425d4150035ac15d06bdf9b8ba3dc0987978bc3429ee4ff752b77aa3a17c5a09944625d330860f906a7
+    "@noir-lang/noirc_abi": 0.19.4
+  checksum: 1d0ce99895c0bc98e9daf67028132f71e30f60b2dc0799ee99f311d917e84459a0d2a37c318f5ab14e594e7dd26f5e612e5fd9a7e0a20a692a7017d7c883bb4d
   languageName: node
   linkType: hard
 
@@ -5704,11 +5704,11 @@ __metadata:
 
 "typescript@patch:typescript@^5.0.0#~builtin<compat/typescript>":
   version: 5.2.2
-  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=14eedb"
+  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 07106822b4305de3f22835cbba949a2b35451cad50888759b6818421290ff95d522b38ef7919e70fb381c5fe9c1c643d7dea22c8b31652a717ddbd57b7f4d554
+  checksum: 0f4da2f15e6f1245e49db15801dbee52f2bbfb267e1c39225afdab5afee1a72839cd86000e65ee9d7e4dfaff12239d28beaf5ee431357fcced15fb08583d72ca
   languageName: node
   linkType: hard
 
@@ -5812,8 +5812,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "verify_on_chain@workspace:."
   dependencies:
-    "@noir-lang/backend_barretenberg": 0.19.3
-    "@noir-lang/noir_js": ^0.19.3
+    "@noir-lang/backend_barretenberg": ^0.19.4
+    "@noir-lang/noir_js": ^0.19.4
+    "@noir-lang/types": ^0.19.4
     "@nomicfoundation/hardhat-chai-matchers": ^2.0.2
     "@nomicfoundation/hardhat-ethers": ^3.0.0
     "@nomicfoundation/hardhat-network-helpers": ^1.0.0
